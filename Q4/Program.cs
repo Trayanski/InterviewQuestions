@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 
 namespace Q4
@@ -6,6 +6,7 @@ namespace Q4
 	class Program
 	{
         public const int Class1MustHavePropertiesCount = 10;
+        private const string Class1PropertyTemplate = "IMG_{0}";
 
         static void Main(string[] args)
 		{
@@ -24,16 +25,16 @@ namespace Q4
                 for (int i = 1; i <= n; i++)
 			    {
                     // Change the instance property value with reflection
-                    PropertyInfo propertyInstance = class1Type.GetProperty($"IMG_{i}");
+                    FieldInfo fieldInstance = class1Type.GetField(string.Format(Class1PropertyTemplate, i));
                     // TODO [TK]: [fix error]
-                    propertyInstance.SetValue(class1, "Hello");
+                    fieldInstance.SetValue(class1, "Hello");
                 }
 
-				for (int i = n; i < Class1MustHavePropertiesCount - n; i++)
+				for (int i = n + 1; i <= Class1MustHavePropertiesCount; i++)
 				{
                     // Change the instance property value with reflection
-                    PropertyInfo propertyInstance = class1Type.GetProperty($"IMG_{i}");
-                    propertyInstance.SetValue(class1, string.Empty);
+                    FieldInfo fieldInstance = class1Type.GetField(string.Format(Class1PropertyTemplate, i));
+                    fieldInstance.SetValue(class1, string.Empty);
                 }
 
 				Console.WriteLine(class1.ToString());
